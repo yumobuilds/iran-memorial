@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>In Memory — Iran Protest Victims</title>
+<meta name="description" content="A memorial for those who lost their lives fighting for freedom in Iran. Over 3500 names remembered.">
+<meta name="keywords" content="Iran protest victims, Woman Life Freedom, زن زندگی آزادی, Iran 2022, memorial">
+<!-- Google can index this page -->
+<meta name="robots" content="index, follow">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#000;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif}
+#app{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;position:relative}
+
+#menu-icon{
+  position:fixed;top:14px;right:16px;
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:#444;font-size:16px;
+  transition:all .2s;z-index:100;
+  user-select:none;
+}
+#menu-icon:hover{border-color:rgba(200,150,50,.5);color:#c8973a}
+
+#admin-panel{
+  position:fixed;top:52px;right:14px;
+  background:#0d0d0d;border:1px solid #222;
+  border-radius:10px;padding:16px;width:290px;
+  display:none;z-index:99;
+  box-shadow:0 8px 32px rgba(0,0,0,.6);
+}
+#admin-panel.open{display:block}
+.panel-title{font-size:11px;color:#c8973a;margin-bottom:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+
+.ctrl-row{display:flex;gap:6px;margin-bottom:12px}
+.ctrl-btn{
+  flex:1;background:rgba(255,255,255,.04);
+  border:1px solid #222;border-radius:6px;
+  color:#777;padding:7px 6px;font-size:11px;
+  cursor:pointer;transition:all .15s;text-align:center;
+}
+.ctrl-btn:hover{border-color:rgba(200,150,50,.4);color:#c8973a}
+.ctrl-btn.active{border-color:rgba(200,150,50,.5);color:#c8973a;background:rgba(200,150,50,.06)}
+
+.section{display:none;margin-top:4px}
+.section.open{display:block}
+
+.form-row{margin-bottom:9px}
+.form-row label{display:block;font-size:10px;color:#444;margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em}
+.form-row input{
+  width:100%;background:#060606;
+  border:1px solid #1a1a1a;border-radius:5px;
+  padding:7px 10px;color:#ccc;font-size:13px;
+  transition:border-color .15s;
+}
+.form-row input:focus{outline:none;border-color:#c8973a}
+.form-row input.farsi{font-family:'Vazirmatn','Tahoma','Arial Unicode MS',sans-serif;direction:rtl;text-align:right;font-size:15px}
+.form-actions{display:flex;gap:6px;margin-top:10px}
+.add-btn{background:#c8973a;border:none;border-radius:5px;color:#000;padding:7px 0;font-size:12px;font-weight:600;cursor:pointer;flex:1}
+.cancel-btn{background:transparent;border:1px solid #222;border-radius:5px;color:#555;padding:7px 10px;font-size:12px;cursor:pointer}
+
+#list-wrap{max-height:220px;overflow-y:auto}
+.list-count{font-size:10px;color:#444;margin-bottom:8px}
+.name-item{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid #0f0f0f;font-size:12px}
+.name-item:last-child{border-bottom:none}
+.ni-farsi{font-family:'Vazirmatn','Tahoma','Arial Unicode MS',sans-serif;direction:rtl;color:#bbb;flex:1;text-align:right;font-size:13px}
+.ni-en{color:#555;font-size:11px;min-width:68px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ni-age{color:#333;font-size:10px;min-width:22px;text-align:center}
+.ni-del{background:none;border:none;color:#222;cursor:pointer;font-size:12px;padding:1px 4px;flex-shrink:0}
+.ni-del:hover{color:#c04040}
+
+/* ── memorial ── */
+#memorial{
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:48px 24px;width:100%;max-width:600px;
+  min-height:100vh;position:relative;
+}
+#candle{
+  font-size:40px;margin-bottom:18px;
+  filter:drop-shadow(0 0 12px rgba(255,180,50,.4));
+  animation:flicker 3s ease-in-out infinite;
+}
+@keyframes flicker{
+  0%,100%{opacity:1;transform:scale(1)}
+  40%{opacity:.82;transform:scale(.96)}
+  70%{opacity:.93;transform:scale(1.03)}
+}
+#name-farsi{
+  font-family:'Vazirmatn','Tahoma','Arial Unicode MS',sans-serif;
+  font-size:clamp(22px,6vw,34px);
+  color:#ffffff;
+  direction:rtl;text-align:center;
+  line-height:1.5;max-width:90%;
+  margin-bottom:14px;
+}
+#divider{
+  width:64px;height:1px;
+  background:#c8973a;
+  margin:0 auto 14px;opacity:.6;
+}
+#name-english{
+  font-size:clamp(15px,3.5vw,20px);
+  color:#c8973a;text-align:center;
+  letter-spacing:.03em;
+}
+#name-age{
+  font-size:14px;color:#3a3a3a;
+  margin-top:10px;text-align:center;
+}
+#stars{
+  color:#181818;font-size:14px;
+  margin-top:16px;letter-spacing:8px;
+}
+#counter{
+  font-size:10px;color:#191919;
+  margin-top:14px;letter-spacing:.1em;
+  text-transform:uppercase;
+}
+#prog{
+  position:fixed;bottom:0;left:0;
+  height:2px;background:#c8973a;
+  opacity:.2;transition:width linear;
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="menu-icon" onclick="togglePanel()" title="Admin">⚙</div>
+
+  <div id="admin-panel">
+    <div class="panel-title">⚙ Memorial admin</div>
+
+    <div class="ctrl-row">
+      <div class="ctrl-btn" id="pauseBtn" onclick="togglePause()">⏸ Pause</div>
+      <div class="ctrl-btn" id="addBtn"   onclick="toggleSection('add-section','addBtn')">＋ Add</div>
+      <div class="ctrl-btn" id="listBtn"  onclick="toggleSection('list-section','listBtn')">☰ Names</div>
+    </div>
+
+    <div class="section" id="add-section">
+      <div class="form-row">
+        <label>Farsi name (فارسی)</label>
+        <input class="farsi" id="inp_f" type="text" placeholder="نام و نام خانوادگی" dir="rtl"/>
+      </div>
+      <div class="form-row">
+        <label>English name</label>
+        <input id="inp_e" type="text" placeholder="Full name in English"/>
+      </div>
+      <div class="form-row">
+        <label>Age</label>
+        <input id="inp_a" type="number" min="1" max="120" placeholder="Age (optional)"/>
+      </div>
+      <div class="form-actions">
+        <button class="add-btn" onclick="addName()">Add to memorial</button>
+        <button class="cancel-btn" onclick="toggleSection('add-section','addBtn')">Cancel</button>
+      </div>
+    </div>
+
+    <div class="section" id="list-section">
+      <div class="list-count" id="list-count"></div>
+      <div id="list-wrap"></div>
+    </div>
+  </div>
+
+  <div id="memorial">
+    <div id="candle">🕯</div>
+    <div id="name-farsi">—</div>
+    <div id="divider"></div>
+    <div id="name-english">—</div>
+    <div id="name-age"></div>
+    <div id="stars">✦ ✦ ✦</div>
+    <div id="counter"></div>
+  </div>
+  <div id="prog"></div>
+
+</div>
+<script>
+// ── ADD MORE NAMES HERE ─────────────────────────────────────────
+// Format: {f:"Farsi name", e:"English name", a: age}
+const names=[
+  {f:"ژینا (مهسا) امینی",e:"Mahsa (Zhina) Amini",a:22},
+  {f:"نیکا شاکرمی",e:"Nika Shakarami",a:16},
+  {f:"سارینا اسماعیل‌زاده",e:"Sarina Esmailzadeh",a:16},
+  {f:"حدیث نجفی",e:"Hadis Najafi",a:20},
+  {f:"محمد مهدی کرمی",e:"Mohammad Mehdi Karami",a:22},
+  {f:"محمد حسینی",e:"Mohammad Hosseini",a:19},
+  {f:"کیان پیرفلک",e:"Kian Pirfalak",a:9},
+  {f:"آرمیتا گراوند",e:"Armita Geravand",a:16},
+  {f:"عباس دریس",e:"Abbas Deris",a:27},
+  {f:"پویا بختیاری",e:"Pouya Bakhtiari",a:27},
+  {f:"پژمان قادری",e:"Pejman Ghaderi",a:35},
+  {f:"محمدرضا فیضی",e:"Mohammadreza Feizi",a:48},
+  {f:"میلاد آقابیگی",e:"Milad Aghagigi",a:25},
+  {f:"فرید ثمینی",e:"Farid Samini",a:20},
+  {f:"شهریار محمدپور",e:"Shahriar Mohammadpour",a:21},
+  {f:"زینب موسوی",e:"Zeinab Mousavi",a:18},
+  {f:"امیر محمد محمدی مقدم",e:"Amir Mohammad Mohammadi Moghaddam",a:17},
+  {f:"صالح میرهاشمی",e:"Saleh Mirhashemi",a:36},
+  {f:"مجید رهنورد",e:"Majid Rahnavard",a:23},
+  {f:"رضا رسایی",e:"Reza Rasaei",a:32},
+];
+// ───────────────────────────────────────────────────────────────
+
+const SPEED=6000;
+let idx=0,paused=false,timer=null,ft=null;
+const eF=document.getElementById('name-farsi');
+const eE=document.getElementById('name-english');
+const eA=document.getElementById('name-age');
+const eC=document.getElementById('counter');
+const eM=document.getElementById('memorial');
+const eP=document.getElementById('prog');
+
+function showName(n){
+  eM.style.opacity='0';eM.style.transition='opacity 0.8s ease';
+  clearTimeout(ft);
+  ft=setTimeout(()=>{
+    eF.textContent=n.f||'—';
+    eE.textContent=n.e||'—';
+    eA.textContent=n.a?n.a+' years old':'';
+    eC.textContent=idx+' of '+names.length;
+    eP.style.transition='none';eP.style.width='0%';
+    eM.style.opacity='1';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      eP.style.transition='width '+(SPEED/1000)+'s linear';
+      eP.style.width='100%';
+    }));
+  },820);
+}
+
+function next(){
+  if(paused)return;
+  showName(names[idx%names.length]);
+  idx=(idx+1)%names.length;
+  clearTimeout(timer);
+  timer=setTimeout(next,SPEED+1600);
+}
+
+function togglePause(){
+  paused=!paused;
+  const b=document.getElementById('pauseBtn');
+  b.textContent=paused?'▶ Resume':'⏸ Pause';
+  b.classList.toggle('active',paused);
+  if(!paused)next(); else clearTimeout(timer);
+}
+
+function togglePanel(){
+  document.getElementById('admin-panel').classList.toggle('open');
+}
+
+function toggleSection(id,btnId){
+  ['add-section','list-section'].forEach(s=>{
+    const el=document.getElementById(s);
+    const isThis=s===id;
+    const willOpen=isThis&&!el.classList.contains('open');
+    el.classList.toggle('open',isThis&&willOpen);
+  });
+  ['addBtn','listBtn'].forEach(b=>{
+    document.getElementById(b).classList.toggle('active',b===btnId&&document.getElementById(id).classList.contains('open'));
+  });
+  if(id==='list-section'&&document.getElementById(id).classList.contains('open'))renderList();
+  if(id==='add-section'&&document.getElementById(id).classList.contains('open'))
+    setTimeout(()=>document.getElementById('inp_f').focus(),80);
+}
+
+function addName(){
+  const f=document.getElementById('inp_f').value.trim();
+  const e=document.getElementById('inp_e').value.trim();
+  const a=parseInt(document.getElementById('inp_a').value)||0;
+  if(!f&&!e)return;
+  names.push({f:f||'—',e:e||'—',a:a||undefined});
+  ['inp_f','inp_e','inp_a'].forEach(id=>document.getElementById(id).value='');
+  toggleSection('add-section','addBtn');
+  renderList();
+}
+
+function renderList(){
+  document.getElementById('list-count').textContent=names.length+' names in memorial';
+  document.getElementById('list-wrap').innerHTML=names.map((n,i)=>
+    `<div class="name-item">
+      <span class="ni-del" onclick="delName(${i})">✕</span>
+      <span class="ni-farsi">${esc(n.f)}</span>
+      <span class="ni-en">${esc(n.e)}</span>
+      <span class="ni-age">${n.a||''}</span>
+    </div>`
+  ).join('');
+}
+
+function delName(i){names.splice(i,1);if(idx>=names.length)idx=0;renderList();}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+document.addEventListener('click',e=>{
+  const panel=document.getElementById('admin-panel');
+  const icon=document.getElementById('menu-icon');
+  if(panel.classList.contains('open')&&!panel.contains(e.target)&&!icon.contains(e.target)){
+    panel.classList.remove('open');
+  }
+});
+
+next();
+</script>
+</body>
+</html>

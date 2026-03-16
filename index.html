@@ -3,303 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>In Memory — Iran Protest Victims</title>
-<meta name="description" content="A memorial for those who lost their lives fighting for freedom in Iran. Over 3500 names remembered.">
-<meta name="keywords" content="Iran protest victims, Woman Life Freedom, زن زندگی آزادی, Iran 2022, memorial">
-<!-- Google can index this page -->
+<title>In Memory — Iran Protest Victims | زن زندگی آزادی</title>
+<meta name="description" content="A memorial for those who lost their lives fighting for freedom in Iran — Woman, Life, Freedom.">
+<meta name="keywords" content="Iran protest victims, Mahsa Amini, Woman Life Freedom, زن زندگی آزادی, Iran 2022, memorial, کشته شدگان اعتراضات ایران">
 <meta name="robots" content="index, follow">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:#000;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif}
 #app{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;position:relative}
-
-#menu-icon{
-  position:fixed;top:14px;right:16px;
-  width:34px;height:34px;border-radius:50%;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.08);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;color:#444;font-size:16px;
-  transition:all .2s;z-index:100;
-  user-select:none;
-}
-#menu-icon:hover{border-color:rgba(200,150,50,.5);color:#c8973a}
-
-#admin-panel{
-  position:fixed;top:52px;right:14px;
-  background:#0d0d0d;border:1px solid #222;
-  border-radius:10px;padding:16px;width:290px;
-  display:none;z-index:99;
-  box-shadow:0 8px 32px rgba(0,0,0,.6);
-}
+#menu-icon{position:fixed;top:14px;right:16px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#333;font-size:16px;transition:all .2s;z-index:100;user-select:none}
+#menu-icon:hover{border-color:rgba(200,150,50,.4);color:#666}
+#pw-prompt{position:fixed;top:52px;right:14px;background:#0d0d0d;border:1px solid #222;border-radius:10px;padding:16px;width:230px;display:none;z-index:99;box-shadow:0 8px 32px rgba(0,0,0,.8)}
+#pw-prompt.open{display:block}
+.pw-title{font-size:11px;color:#555;margin-bottom:10px;text-transform:uppercase;letter-spacing:.08em}
+#pw-input{width:100%;background:#060606;border:1px solid #1a1a1a;border-radius:5px;padding:7px 10px;color:#ccc;font-size:14px;letter-spacing:.15em}
+#pw-input:focus{outline:none;border-color:#c8973a}
+#pw-error{font-size:11px;color:#c04040;margin-top:5px;display:none}
+#pw-btn{width:100%;margin-top:8px;background:#c8973a;border:none;border-radius:5px;color:#000;padding:7px;font-size:12px;font-weight:600;cursor:pointer}
+#admin-panel{position:fixed;top:52px;right:14px;background:#0d0d0d;border:1px solid #2a2a2a;border-radius:10px;padding:16px;width:290px;display:none;z-index:99;box-shadow:0 8px 32px rgba(0,0,0,.8)}
 #admin-panel.open{display:block}
-.panel-title{font-size:11px;color:#c8973a;margin-bottom:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
-
+.panel-title{font-size:11px;color:#c8973a;margin-bottom:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+.lock-badge{font-size:10px;color:#3a3a3a;background:#111;border:1px solid #1a1a1a;border-radius:10px;padding:1px 8px}
 .ctrl-row{display:flex;gap:6px;margin-bottom:12px}
-.ctrl-btn{
-  flex:1;background:rgba(255,255,255,.04);
-  border:1px solid #222;border-radius:6px;
-  color:#777;padding:7px 6px;font-size:11px;
-  cursor:pointer;transition:all .15s;text-align:center;
-}
+.ctrl-btn{flex:1;background:rgba(255,255,255,.04);border:1px solid #222;border-radius:6px;color:#666;padding:7px 6px;font-size:11px;cursor:pointer;transition:all .15s;text-align:center}
 .ctrl-btn:hover{border-color:rgba(200,150,50,.4);color:#c8973a}
 .ctrl-btn.active{border-color:rgba(200,150,50,.5);color:#c8973a;background:rgba(200,150,50,.06)}
-
 .section{display:none;margin-top:4px}
 .section.open{display:block}
-
 .form-row{margin-bottom:9px}
 .form-row label{display:block;font-size:10px;color:#444;margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em}
-.form-row input{
-  width:100%;background:#060606;
-  border:1px solid #1a1a1a;border-radius:5px;
-  padding:7px 10px;color:#ccc;font-size:13px;
-  transition:border-color .15s;
-}
+.form-row input{width:100%;background:#060606;border:1px solid #1a1a1a;border-radius:5px;padding:7px 10px;color:#ccc;font-size:13px;transition:border-color .15s}
 .form-row input:focus{outline:none;border-color:#c8973a}
 .form-row input.farsi{font-family:'Vazirmatn','Tahoma','Arial Unicode MS',sans-serif;direction:rtl;text-align:right;font-size:15px}
 .form-actions{display:flex;gap:6px;margin-top:10px}
 .add-btn{background:#c8973a;border:none;border-radius:5px;color:#000;padding:7px 0;font-size:12px;font-weight:600;cursor:pointer;flex:1}
 .cancel-btn{background:transparent;border:1px solid #222;border-radius:5px;color:#555;padding:7px 10px;font-size:12px;cursor:pointer}
-
 #list-wrap{max-height:220px;overflow-y:auto}
 .list-count{font-size:10px;color:#444;margin-bottom:8px}
-.name-item{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid #0f0f0f;font-size:12px}
+.name-item{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid #0f0f0f}
 .name-item:last-child{border-bottom:none}
 .ni-farsi{font-family:'Vazirmatn','Tahoma','Arial Unicode MS',sans-serif;direction:rtl;color:#bbb;flex:1;text-align:right;font-size:13px}
 .ni-en{color:#555;font-size:11px;min-width:68px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ni-age{color:#333;font-size:10px;min-width:22px;text-align:center}
 .ni-del{background:none;border:none;color:#222;cursor:pointer;font-size:12px;padding:1px 4px;flex-shrink:0}
 .ni-del:hover{color:#c04040}
-
-/* ── memorial ── */
-#memorial{
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:48px 24px;width:100%;max-width:600px;
-  min-height:100vh;position:relative;
-}
-#candle{
-  font-size:40px;margin-bottom:18px;
-  filter:drop-shadow(0 0 12px rgba(255,180,50,.4));
-  animation:flicker 3s ease-in-out infinite;
-}
-@keyframes flicker{
-  0%,100%{opacity:1;transform:scale(1)}
-  40%{opacity:.82;transform:scale(.96)}
-  70%{opacity:.93;transform:scale(1.03)}
-}
-#name-farsi{
-  font-family:'Vazirmatn','Tahoma','Arial Unicode MS',sans-serif;
-  font-size:clamp(22px,6vw,34px);
-  color:#ffffff;
-  direction:rtl;text-align:center;
-  line-height:1.5;max-width:90%;
-  margin-bottom:14px;
-}
-#divider{
-  width:64px;height:1px;
-  background:#c8973a;
-  margin:0 auto 14px;opacity:.6;
-}
-#name-english{
-  font-size:clamp(15px,3.5vw,20px);
-  color:#c8973a;text-align:center;
-  letter-spacing:.03em;
-}
-#name-age{
-  font-size:14px;color:#3a3a3a;
-  margin-top:10px;text-align:center;
-}
-#stars{
-  color:#181818;font-size:14px;
-  margin-top:16px;letter-spacing:8px;
-}
-#counter{
-  font-size:10px;color:#191919;
-  margin-top:14px;letter-spacing:.1em;
-  text-transform:uppercase;
-}
-#prog{
-  position:fixed;bottom:0;left:0;
-  height:2px;background:#c8973a;
-  opacity:.2;transition:width linear;
-}
+#memorial{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;width:100%;max-width:600px;min-height:100vh}
+#name-farsi{font-family:'Vazirmatn','Tahoma','Arial Unicode MS',sans-serif;font-size:clamp(22px,6vw,34px);color:#fff;direction:rtl;text-align:center;line-height:1.5;max-width:90%;margin-bottom:14px}
+#divider{width:64px;height:1px;background:#c8973a;margin:0 auto 14px;opacity:.6}
+#name-english{font-size:clamp(15px,3.5vw,20px);color:#c8973a;text-align:center;letter-spacing:.03em}
+#name-age{font-size:14px;color:#3a3a3a;margin-top:10px;text-align:center}
+#stars{color:#181818;font-size:14px;margin-top:16px;letter-spacing:8px}
+#counter{font-size:10px;color:#191919;margin-top:14px;letter-spacing:.1em;text-transform:uppercase}
+#prog{position:fixed;bottom:0;left:0;height:2px;background:#c8973a;opacity:.2}
+.candle-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:24px}
+.flame{width:14px;height:22px;background:radial-gradient(ellipse at 50% 80%, #fff 0%, #ffe066 30%, #ffaa00 65%, transparent 100%);border-radius:50% 50% 30% 30% / 60% 60% 40% 40%;position:relative;animation:flame-flicker 2.5s ease-in-out infinite;filter:drop-shadow(0 0 6px rgba(255,180,30,.7))}
+.flame-inner{position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:5px;height:10px;background:radial-gradient(ellipse at 50% 80%, #fff 0%, #fffbe0 80%, transparent 100%);border-radius:50% 50% 30% 30% / 60% 60% 40% 40%;animation:flame-flicker 1.8s ease-in-out infinite reverse}
+@keyframes flame-flicker{0%,100%{transform:scaleX(1) scaleY(1) rotate(-1deg)}25%{transform:scaleX(.92) scaleY(1.04) rotate(1.5deg)}50%{transform:scaleX(1.05) scaleY(.96) rotate(-2deg)}75%{transform:scaleX(.95) scaleY(1.03) rotate(1deg)}}
+.wick{width:2px;height:7px;background:#555;border-radius:1px}
+.wax-body{width:18px;height:48px;background:linear-gradient(to right, #d4cfc8 0%, #ede8e0 40%, #f5f0e8 60%, #ccc8c0 100%);border-radius:2px 2px 3px 3px;position:relative;box-shadow:inset -2px 0 4px rgba(0,0,0,.15)}
+.wax-top{width:18px;height:5px;background:radial-gradient(ellipse at 50% 50%, #f0ebe3 60%, #d4cfc8 100%);border-radius:50%}
+.wax-drip{position:absolute;right:2px;top:8px;width:5px;height:10px;background:linear-gradient(to bottom, #ede8e0, #d4cfc8);border-radius:0 0 4px 4px;opacity:.7}
 </style>
 </head>
 <body>
 <div id="app">
-
-  <div id="menu-icon" onclick="togglePanel()" title="Admin">⚙</div>
-
+  <div id="menu-icon" onclick="handleGearClick()">&#9881;</div>
+  <div id="pw-prompt">
+    <div class="pw-title">Admin access</div>
+    <input id="pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()"/>
+    <div id="pw-error">Incorrect password</div>
+    <button id="pw-btn" onclick="checkPw()">Enter</button>
+  </div>
   <div id="admin-panel">
-    <div class="panel-title">⚙ Memorial admin</div>
-
+    <div class="panel-title">Admin <span class="lock-badge">protected</span></div>
     <div class="ctrl-row">
-      <div class="ctrl-btn" id="pauseBtn" onclick="togglePause()">⏸ Pause</div>
-      <div class="ctrl-btn" id="addBtn"   onclick="toggleSection('add-section','addBtn')">＋ Add</div>
-      <div class="ctrl-btn" id="listBtn"  onclick="toggleSection('list-section','listBtn')">☰ Names</div>
+      <div class="ctrl-btn" id="pauseBtn" onclick="togglePause()">Pause</div>
+      <div class="ctrl-btn" id="addBtn" onclick="toggleSection('add-section','addBtn')">+ Add</div>
+      <div class="ctrl-btn" id="listBtn" onclick="toggleSection('list-section','listBtn')">Names</div>
     </div>
-
     <div class="section" id="add-section">
-      <div class="form-row">
-        <label>Farsi name (فارسی)</label>
-        <input class="farsi" id="inp_f" type="text" placeholder="نام و نام خانوادگی" dir="rtl"/>
-      </div>
-      <div class="form-row">
-        <label>English name</label>
-        <input id="inp_e" type="text" placeholder="Full name in English"/>
-      </div>
-      <div class="form-row">
-        <label>Age</label>
-        <input id="inp_a" type="number" min="1" max="120" placeholder="Age (optional)"/>
-      </div>
+      <div class="form-row"><label>Farsi name</label><input class="farsi" id="inp_f" type="text" placeholder="نام و نام خانوادگی" dir="rtl"/></div>
+      <div class="form-row"><label>English name</label><input id="inp_e" type="text" placeholder="Full name in English"/></div>
+      <div class="form-row"><label>Age</label><input id="inp_a" type="number" min="1" max="120" placeholder="optional"/></div>
       <div class="form-actions">
         <button class="add-btn" onclick="addName()">Add to memorial</button>
         <button class="cancel-btn" onclick="toggleSection('add-section','addBtn')">Cancel</button>
       </div>
     </div>
-
     <div class="section" id="list-section">
       <div class="list-count" id="list-count"></div>
       <div id="list-wrap"></div>
     </div>
   </div>
-
   <div id="memorial">
-    <div id="candle">🕯</div>
-    <div id="name-farsi">—</div>
+    <div class="candle-wrap">
+      <div class="flame"><div class="flame-inner"></div></div>
+      <div class="wick"></div>
+      <div class="wax-top"></div>
+      <div class="wax-body"><div class="wax-drip"></div></div>
+    </div>
+    <div id="name-farsi">&#8212;</div>
     <div id="divider"></div>
-    <div id="name-english">—</div>
+    <div id="name-english">&#8212;</div>
     <div id="name-age"></div>
-    <div id="stars">✦ ✦ ✦</div>
+    <div id="stars">&#10022; &nbsp; &#10022;</div>
     <div id="counter"></div>
   </div>
   <div id="prog"></div>
-
 </div>
 <script>
-// ── ADD MORE NAMES HERE ─────────────────────────────────────────
-// Format: {f:"Farsi name", e:"English name", a: age}
-const names=[
-  {f:"ژینا (مهسا) امینی",e:"Mahsa (Zhina) Amini",a:22},
-  {f:"نیکا شاکرمی",e:"Nika Shakarami",a:16},
-  {f:"سارینا اسماعیل‌زاده",e:"Sarina Esmailzadeh",a:16},
-  {f:"حدیث نجفی",e:"Hadis Najafi",a:20},
-  {f:"محمد مهدی کرمی",e:"Mohammad Mehdi Karami",a:22},
-  {f:"محمد حسینی",e:"Mohammad Hosseini",a:19},
-  {f:"کیان پیرفلک",e:"Kian Pirfalak",a:9},
-  {f:"آرمیتا گراوند",e:"Armita Geravand",a:16},
-  {f:"عباس دریس",e:"Abbas Deris",a:27},
-  {f:"پویا بختیاری",e:"Pouya Bakhtiari",a:27},
-  {f:"پژمان قادری",e:"Pejman Ghaderi",a:35},
-  {f:"محمدرضا فیضی",e:"Mohammadreza Feizi",a:48},
-  {f:"میلاد آقابیگی",e:"Milad Aghagigi",a:25},
-  {f:"فرید ثمینی",e:"Farid Samini",a:20},
-  {f:"شهریار محمدپور",e:"Shahriar Mohammadpour",a:21},
-  {f:"زینب موسوی",e:"Zeinab Mousavi",a:18},
-  {f:"امیر محمد محمدی مقدم",e:"Amir Mohammad Mohammadi Moghaddam",a:17},
-  {f:"صالح میرهاشمی",e:"Saleh Mirhashemi",a:36},
-  {f:"مجید رهنورد",e:"Majid Rahnavard",a:23},
-  {f:"رضا رسایی",e:"Reza Rasaei",a:32},
+var ADMIN_PASSWORD="sina2024";
+var names=[
+{f:"\u0698\u06cc\u0646\u0627 (\u0645\u0647\u0633\u0627) \u0627\u0645\u06cc\u0646\u06cc",e:"Mahsa (Zhina) Amini",a:22},
+{f:"\u0646\u06cc\u06a9\u0627 \u0634\u0627\u06a9\u0631\u0645\u06cc",e:"Nika Shakarami",a:16},
+{f:"\u0633\u0627\u0631\u06cc\u0646\u0627 \u0627\u0633\u0645\u0627\u0639\u06cc\u0644\u200c\u0632\u0627\u062f\u0647",e:"Sarina Esmailzadeh",a:16},
+{f:"\u062d\u062f\u06cc\u062b \u0646\u062c\u0641\u06cc",e:"Hadis Najafi",a:20},
+{f:"\u0645\u062d\u0645\u062f \u0645\u0647\u062f\u06cc \u06a9\u0631\u0645\u06cc",e:"Mohammad Mehdi Karami",a:22},
+{f:"\u0645\u062d\u0645\u062f \u062d\u0633\u06cc\u0646\u06cc",e:"Mohammad Hosseini",a:19},
+{f:"\u06a9\u06cc\u0627\u0646 \u067e\u06cc\u0631\u0641\u0644\u06a9",e:"Kian Pirfalak",a:9},
+{f:"\u0622\u0631\u0645\u06cc\u062a\u0627 \u06af\u0631\u0627\u0648\u0646\u062f",e:"Armita Geravand",a:16},
+{f:"\u0645\u062d\u0633\u0646 \u0634\u06a9\u0627\u0631\u06cc",e:"Mohsen Shekari",a:23},
+{f:"\u0645\u062c\u06cc\u062f \u0631\u0647\u0646\u0648\u0631\u062f",e:"Majid Rahnavard",a:23},
+{f:"\u0635\u0627\u0644\u062d \u0645\u06cc\u0631\u0647\u0627\u0634\u0645\u06cc",e:"Saleh Mirhashemi",a:36},
+{f:"\u067e\u0648\u06cc\u0627 \u0628\u062e\u062a\u06cc\u0627\u0631\u06cc",e:"Pouya Bakhtiari",a:27},
+{f:"\u0639\u0628\u0627\u0633 \u062f\u0631\u06cc\u0633",e:"Abbas Deris",a:27},
+{f:"\u067e\u0698\u0645\u0627\u0646 \u0642\u0627\u062f\u0631\u06cc",e:"Pejman Ghaderi",a:35},
+{f:"\u0645\u062d\u0645\u062f\u0631\u0636\u0627 \u0641\u06cc\u0636\u06cc",e:"Mohammadreza Feizi",a:48},
+{f:"\u0645\u06cc\u0644\u0627\u062f \u0622\u0642\u0627\u0628\u06cc\u06af\u06cc",e:"Milad Aghagigi",a:25},
+{f:"\u0641\u0631\u06cc\u062f \u062b\u0645\u06cc\u0646\u06cc",e:"Farid Samini",a:20},
+{f:"\u0634\u0647\u0631\u06cc\u0627\u0631 \u0645\u062d\u0645\u062f\u067e\u0648\u0631",e:"Shahriar Mohammadpour",a:21},
+{f:"\u0632\u06cc\u0646\u0628 \u0645\u0648\u0633\u0648\u06cc",e:"Zeinab Mousavi",a:18},
+{f:"\u0627\u0645\u06cc\u0631 \u0645\u062d\u0645\u062f \u0645\u062d\u0645\u062f\u06cc \u0645\u0642\u062f\u0645",e:"Amir Mohammad Mohammadi Moghaddam",a:17},
+{f:"\u0631\u0636\u0627 \u0631\u0633\u0627\u06cc\u06cc",e:"Reza Rasaei",a:32},
+{f:"\u0645\u062d\u0633\u0646 \u0646\u06cc\u06a9\u0646\u0627\u0645",e:"Mohsen Niknam",a:22},
+{f:"\u0645\u0647\u0633\u0627 \u0632\u0631\u06cc\u0646\u200c\u0686\u0646\u06af",e:"Mahsa Zarinchang",a:32},
+{f:"\u0622\u0631\u0646\u06cc\u06a9\u0627 \u0642\u0627\u0626\u0645\u200c\u0645\u0642\u0627\u0645\u06cc",e:"Arnika Ghaem Maghami",a:17},
+{f:"\u0627\u0645\u06cc\u0631\u062d\u0633\u06cc\u0646 \u062a\u0631\u0648\u0644",e:"Amirhossein Terval",a:20},
+{f:"\u0633\u06cc\u0646\u0627 \u0648\u0644\u06cc\u200c\u0627\u0644\u0644\u0647",e:"Sina Valiollah",a:23},
+{f:"\u0646\u0627\u062f\u0631 \u0645\u0638\u0641\u0631\u06cc",e:"Nader Mozaffari",a:41},
+{f:"\u062d\u0627\u0645\u062f \u0635\u0627\u0644\u062d\u06cc",e:"Hamed Salehi",a:26},
+{f:"\u0627\u0645\u06cc\u0646 \u0631\u062d\u06cc\u0645\u06cc",e:"Amin Rahimi",a:21},
+{f:"\u0641\u0631\u0634\u06cc\u062f \u0647\u0627\u0634\u0645\u06cc",e:"Farshid Hashemi",a:28},
 ];
-// ───────────────────────────────────────────────────────────────
-
-const SPEED=6000;
-let idx=0,paused=false,timer=null,ft=null;
-const eF=document.getElementById('name-farsi');
-const eE=document.getElementById('name-english');
-const eA=document.getElementById('name-age');
-const eC=document.getElementById('counter');
-const eM=document.getElementById('memorial');
-const eP=document.getElementById('prog');
-
+var unlocked=false;
+function handleGearClick(){
+  if(unlocked){document.getElementById('admin-panel').classList.toggle('open');document.getElementById('pw-prompt').classList.remove('open');}
+  else{document.getElementById('pw-prompt').classList.toggle('open');document.getElementById('admin-panel').classList.remove('open');
+  if(document.getElementById('pw-prompt').classList.contains('open'))setTimeout(function(){document.getElementById('pw-input').focus()},80);}
+}
+function checkPw(){
+  if(document.getElementById('pw-input').value===ADMIN_PASSWORD){
+    unlocked=true;document.getElementById('pw-prompt').classList.remove('open');
+    document.getElementById('pw-input').value='';document.getElementById('pw-error').style.display='none';
+    document.getElementById('admin-panel').classList.add('open');
+  } else {document.getElementById('pw-error').style.display='block';document.getElementById('pw-input').value='';document.getElementById('pw-input').focus();}
+}
+var SPEED=6000,idx=0,paused=false,timer=null,ft=null;
+var eF=document.getElementById('name-farsi'),eE=document.getElementById('name-english'),
+    eA=document.getElementById('name-age'),eC=document.getElementById('counter'),
+    eM=document.getElementById('memorial'),eP=document.getElementById('prog');
 function showName(n){
-  eM.style.opacity='0';eM.style.transition='opacity 0.8s ease';
-  clearTimeout(ft);
-  ft=setTimeout(()=>{
-    eF.textContent=n.f||'—';
-    eE.textContent=n.e||'—';
-    eA.textContent=n.a?n.a+' years old':'';
-    eC.textContent=idx+' of '+names.length;
-    eP.style.transition='none';eP.style.width='0%';
-    eM.style.opacity='1';
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      eP.style.transition='width '+(SPEED/1000)+'s linear';
-      eP.style.width='100%';
-    }));
+  eM.style.opacity='0';eM.style.transition='opacity 0.8s ease';clearTimeout(ft);
+  ft=setTimeout(function(){
+    eF.textContent=n.f||'—';eE.textContent=n.e||'—';eA.textContent=n.a?n.a+' years old':'';
+    eC.textContent=idx+' of '+names.length;eP.style.transition='none';eP.style.width='0%';eM.style.opacity='1';
+    requestAnimationFrame(function(){requestAnimationFrame(function(){eP.style.transition='width '+(SPEED/1000)+'s linear';eP.style.width='100%';});});
   },820);
 }
-
-function next(){
-  if(paused)return;
-  showName(names[idx%names.length]);
-  idx=(idx+1)%names.length;
-  clearTimeout(timer);
-  timer=setTimeout(next,SPEED+1600);
-}
-
-function togglePause(){
-  paused=!paused;
-  const b=document.getElementById('pauseBtn');
-  b.textContent=paused?'▶ Resume':'⏸ Pause';
-  b.classList.toggle('active',paused);
-  if(!paused)next(); else clearTimeout(timer);
-}
-
-function togglePanel(){
-  document.getElementById('admin-panel').classList.toggle('open');
-}
-
+function next(){if(paused)return;showName(names[idx%names.length]);idx=(idx+1)%names.length;clearTimeout(timer);timer=setTimeout(next,SPEED+1600);}
+function togglePause(){var b=document.getElementById('pauseBtn');paused=!paused;b.textContent=paused?'Resume':'Pause';b.classList.toggle('active',paused);if(!paused)next();else clearTimeout(timer);}
 function toggleSection(id,btnId){
-  ['add-section','list-section'].forEach(s=>{
-    const el=document.getElementById(s);
-    const isThis=s===id;
-    const willOpen=isThis&&!el.classList.contains('open');
-    el.classList.toggle('open',isThis&&willOpen);
-  });
-  ['addBtn','listBtn'].forEach(b=>{
-    document.getElementById(b).classList.toggle('active',b===btnId&&document.getElementById(id).classList.contains('open'));
-  });
+  ['add-section','list-section'].forEach(function(s){var el=document.getElementById(s),willOpen=s===id&&!el.classList.contains('open');el.classList.toggle('open',s===id&&willOpen);});
+  ['addBtn','listBtn'].forEach(function(b){var sec=b==='addBtn'?'add-section':'list-section';document.getElementById(b).classList.toggle('active',b===btnId&&document.getElementById(sec).classList.contains('open'));});
   if(id==='list-section'&&document.getElementById(id).classList.contains('open'))renderList();
-  if(id==='add-section'&&document.getElementById(id).classList.contains('open'))
-    setTimeout(()=>document.getElementById('inp_f').focus(),80);
+  if(id==='add-section'&&document.getElementById(id).classList.contains('open'))setTimeout(function(){document.getElementById('inp_f').focus()},80);
 }
-
 function addName(){
-  const f=document.getElementById('inp_f').value.trim();
-  const e=document.getElementById('inp_e').value.trim();
-  const a=parseInt(document.getElementById('inp_a').value)||0;
-  if(!f&&!e)return;
-  names.push({f:f||'—',e:e||'—',a:a||undefined});
-  ['inp_f','inp_e','inp_a'].forEach(id=>document.getElementById(id).value='');
-  toggleSection('add-section','addBtn');
-  renderList();
+  var f=document.getElementById('inp_f').value.trim(),e=document.getElementById('inp_e').value.trim(),a=parseInt(document.getElementById('inp_a').value)||0;
+  if(!f&&!e)return;names.push({f:f||'—',e:e||'—',a:a||undefined});
+  ['inp_f','inp_e','inp_a'].forEach(function(id){document.getElementById(id).value='';});toggleSection('add-section','addBtn');
 }
-
 function renderList(){
   document.getElementById('list-count').textContent=names.length+' names in memorial';
-  document.getElementById('list-wrap').innerHTML=names.map((n,i)=>
-    `<div class="name-item">
-      <span class="ni-del" onclick="delName(${i})">✕</span>
-      <span class="ni-farsi">${esc(n.f)}</span>
-      <span class="ni-en">${esc(n.e)}</span>
-      <span class="ni-age">${n.a||''}</span>
-    </div>`
-  ).join('');
+  document.getElementById('list-wrap').innerHTML=names.map(function(n,i){return '<div class="name-item"><span class="ni-del" onclick="delName('+i+')">x</span><span class="ni-farsi">'+esc(n.f)+'</span><span class="ni-en">'+esc(n.e)+'</span><span class="ni-age">'+(n.a||'')+'</span></div>';}).join('');
 }
-
 function delName(i){names.splice(i,1);if(idx>=names.length)idx=0;renderList();}
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-
-document.addEventListener('click',e=>{
-  const panel=document.getElementById('admin-panel');
-  const icon=document.getElementById('menu-icon');
-  if(panel.classList.contains('open')&&!panel.contains(e.target)&&!icon.contains(e.target)){
-    panel.classList.remove('open');
-  }
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+document.addEventListener('click',function(e){
+  var pw=document.getElementById('pw-prompt'),ap=document.getElementById('admin-panel'),ic=document.getElementById('menu-icon');
+  if(!pw.contains(e.target)&&!ap.contains(e.target)&&!ic.contains(e.target)){pw.classList.remove('open');ap.classList.remove('open');}
 });
-
 next();
 </script>
 </body>
